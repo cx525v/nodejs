@@ -56,3 +56,18 @@ export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET_
    user
  }
 };
+
+export const tryLogin = async(email, password, models, SECRET, SECRET_2) => {
+  const user= await models.User.findOne({where: {email}, raw: true});
+ if(!user） {
+    
+    throw new Error('Invalid login');
+    } 
+  const [token, refreshToken] = await createTokens(user, SECRET, SECRET_2 + user.password);
+
+return {
+  token,
+  refreshToken, 
+}
+  
+}
