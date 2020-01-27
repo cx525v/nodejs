@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import bcrrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 export const createTokens = async(user, secret, secret2) => {
  const createToken = jwt.sign(
   {
