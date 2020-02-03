@@ -1,0 +1,33 @@
+//npm install jasmine-node
+// package.json
+
+{
+  "spec_dir": "spec",
+  "spec_files": [
+    "**/*[sS]pec.js"
+  ],
+  "helpers":{
+   "helpers/**/*.js"
+  ],
+  "stopSpecOnExpectationFailure": false,
+  "random": false
+}
+
+
+//Add.js
+
+var exports = model.exports ={};
+exports.AddNumber = function(a, b)
+{
+ return a + b;
+};
+
+//add-spec.js
+
+var app=require("../Add.js");
+describe("Addition",function(){
+it("The function should add 2 numbers",function() {
+var value=app.AddNumber(5,6);
+expect(value).toBe(11);
+});
+});
