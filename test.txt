@@ -1,0 +1,133 @@
+# global install
+npm install mocha -g
+# project install
+npm install mocha --save-dev
+
+package.json
+
+"scripts": {
+  "test": "mocha"
+}
+
+const assert = require('assert');
+describe('Simple Math Test', () => {
+ it('should return 2', () => {
+        assert.equal(1 + 1, 2);
+    });
+ it('should return 9', () => {
+        assert.equal(3 * 2, 9);
+    });
+});
+
+npm install --save-dev chai
+
+const expect = require('chai');
+...
+expect(1 + 1).to.equal(2);
+expect(isTrue).to.be.true;
+
+const should = require('chai').should();
+...
+isTrue.should.equal(true);
+
+const expect = require('chai').expect;
+describe('Simple Math Test', () => {
+ it('should return 2', () => {
+        expect(1 + 1).to.equal(2);
+    });
+ it('should return 9', () => {
+        expect(3 * 3).to.equal(9);
+    });
+});
+
+math.js
+const math = {};
+math.add = (num1, num2) => num1 + num2;
+math.multiply = (num1, num2) => num1 * num2;
+module.exports = math;
+
+math.test.js
+const expect = require('chai').expect;
+// import math file
+const math = require('../math');
+describe('math.js tests', () => {
+    describe('math.add() Test', () => {
+        it('should equal 2', () => {
+            const result = math.add(1, 1);
+            expect(result).to.equal(2);
+        });
+        it('should equal 4', () => {
+            const result = math.add(2, 2);
+            expect(result).to.equal(4);
+        });
+    });
+    
+    describe('math.multiply() Test', () => {
+        it('should equal 3', () => {
+            const result = math.multiply(3, 1);
+            expect(result).to.equal(3);
+        });
+        it('should equal 10', () => {
+            const result = math.multiply(5, 2);
+            expect(result).to.equal(10);
+        });
+    });
+});
+
+npm run test
+
+//run single file
+npm run test test/math.test.js
+
+npm run test -- --grep "math.add()"
+
+
+test asynchronous 
+math.js
+const math = {};
+// math.add = (num1, num2) => num1 + num2;
+math.add = async (num1, num2) => await num1 + num2;
+// math.multiply = (num1, num2) => num1 * num2;
+math.multiply = (num1, num2) => new Promise((resolve, reject) => {
+    resolve(num1 * num2);
+});
+module.exports = math;
+
+//math.test.js
+it('should equal 2', async () => {
+   const result = await math.add(1, 1);
+   expect(result).to.equal(2);
+});
+
+npm run test -- --grep "should equal 2"
+
+it('should equal 2', () => {
+    math.add(1, 1).then(result => expect(result).to.equal(2));
+});
+
+//test asynchronous error handling
+
+math.add = async (num1, num2) => {
+    try {
+        if(num1 && num2) {
+            const result = await num1 + num2;
+            return result;
+        } else {
+            throw 'missing arg';
+        }
+    } catch (err) {
+        throw err;
+    }
+};
+
+it('should throw an error', async () => {
+    try {
+        await math.add(1);
+    } catch (error) {
+        expect(error).to.equal('missing ar');
+    }
+});
+
+
+
+
